@@ -14,23 +14,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1033;font-family:
 #game{position:fixed;inset:0;width:100vw;height:100vh;display:block}
 .hud{position:fixed;z-index:5;pointer-events:none}
 #tl{top:6px;left:8px;display:flex;flex-direction:column;gap:6px}
-#minimap{width:clamp(110px,22vh,170px);aspect-ratio:260/200;height:auto;border:2px solid rgba(255,255,255,.6);border-radius:10px;background:#223;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+#minimap{width:clamp(110px,22vh,170px);aspect-ratio:1/1;height:auto;border:3px solid #14102a;border-radius:50%;background:#17a2c6;box-shadow:0 0 0 3px #ff71ce,0 0 18px rgba(255,113,206,.55),0 4px 14px rgba(0,0,0,.45)}
 #missionBox{max-width:min(280px,36vw);background:rgba(16,10,38,.74);border:1px solid rgba(255,150,220,.55);border-left:4px solid #ff71ce;border-radius:9px;padding:5px 9px}
 #missionBox h3{font-size:12px;color:#ffd7f4;margin-bottom:1px}
 #missionBox p{font-size:12px;line-height:1.35;color:#f2ecff}
 #missionBox .dist{color:#7dff8a;font-weight:700}
 #garageTxt{color:#ffe259!important;margin-top:2px}
 #tr{top:6px;right:8px;text-align:right}
-#stars{font-size:19px;color:#ffd83d;letter-spacing:2px;text-shadow:0 2px 6px rgba(0,0,0,.8);min-height:24px}
+#stars{font-size:19px;color:#ffd83d;letter-spacing:2px;text-shadow:0 0 7px rgba(255,113,206,.9),0 2px 6px rgba(0,0,0,.8);min-height:24px}
 #stars .off{color:rgba(255,255,255,.25)}
-#money{font-size:clamp(20px,4.6vh,28px);font-weight:800;color:#7dff8a;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+#money{font-size:clamp(20px,4.6vh,28px);font-weight:800;font-style:italic;letter-spacing:1px;color:#7dff8a;text-shadow:0 2px 0 rgba(10,60,20,.9),0 3px 8px rgba(0,0,0,.7)}
 .bar{width:clamp(110px,22vh,170px);height:11px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.5);border-radius:7px;margin:3px 0 0 auto;overflow:hidden}
 .bar>i{display:block;height:100%;transition:width .2s;background:linear-gradient(90deg,#ff5f6d,#ffc371);width:100%}
 #tc{top:6px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px}
-#area{background:rgba(0,0,0,.5);padding:3px 14px;border-radius:14px;font-size:13px;font-weight:600;color:#ffd7f4;white-space:nowrap}
+#area{background:transparent;padding:3px 14px;font-size:16px;font-weight:700;font-style:italic;letter-spacing:.5px;color:#ff9ff3;text-shadow:0 2px 0 rgba(70,10,60,.85),0 3px 8px rgba(0,0,0,.6);white-space:nowrap}
 #topBtns{display:flex;gap:6px;pointer-events:auto}
 #topBtns button{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.45);background:rgba(20,12,44,.6);color:#fff;font-size:16px;cursor:pointer}
-#toast{top:16%;left:50%;transform:translateX(-50%);font-size:clamp(18px,4.5vh,30px);font-weight:800;text-align:center;text-shadow:0 3px 10px rgba(0,0,0,.9);opacity:0;transition:opacity .3s;white-space:nowrap}
+#toast{top:16%;left:50%;transform:translateX(-50%);font-size:clamp(18px,4.5vh,30px);font-weight:800;font-style:italic;text-align:center;color:#ffd7f4;text-shadow:0 2px 0 rgba(70,10,60,.9),0 3px 10px rgba(0,0,0,.9);opacity:0;transition:opacity .3s;white-space:nowrap}
 #toast.show{opacity:1}
 #hint{bottom:clamp(90px,26vh,130px);left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);padding:5px 14px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .25s;white-space:nowrap}
 #hint.show{opacity:1}
@@ -44,11 +44,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1033;font-family:
 #arrow{left:0;top:0;display:none;z-index:6}
 #arrowIcon{font-size:34px;color:#ff2fb3;text-shadow:0 0 8px #fff,0 2px 6px #000;line-height:1;width:34px;height:34px;display:block;text-align:center;margin:-17px 0 0 -17px}
 #arrowDist{font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 4px #000;margin:2px 0 0 -30px;width:60px;text-align:center}
-.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 35%,rgba(90,30,120,.55),rgba(12,6,30,.88));padding:12px}
-.card{max-width:560px;width:100%;text-align:center;background:rgba(24,14,52,.88);border:1px solid rgba(255,150,220,.4);border-radius:18px;padding:18px 18px;box-shadow:0 20px 60px rgba(0,0,0,.6);max-height:94vh;overflow:auto}
+.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(30,17,80,.90) 0%,rgba(91,42,134,.88) 26%,rgba(193,59,146,.86) 46%,rgba(255,94,122,.84) 60%,rgba(255,158,94,.86) 76%,rgba(255,217,138,.90) 100%);padding:12px;overflow:hidden}
+.overlay::before{content:'🌴';position:absolute;left:-14px;bottom:-30px;font-size:200px;line-height:1;filter:brightness(0);opacity:.30;pointer-events:none}
+.overlay::after{content:'🌴';position:absolute;right:-18px;bottom:-36px;font-size:250px;line-height:1;filter:brightness(0);opacity:.24;transform:scaleX(-1);pointer-events:none}
+.card{position:relative;z-index:1;max-width:560px;width:100%;text-align:center;background:rgba(26,10,46,.78);border:1px solid rgba(255,180,230,.55);border-radius:18px;padding:18px 18px;box-shadow:0 20px 60px rgba(40,0,60,.55);max-height:94vh;overflow:auto;backdrop-filter:blur(3px)}
 .card.wide{max-width:860px;display:grid;grid-template-columns:1fr 1.25fr;gap:16px;text-align:left;align-items:center}
 .card.wide .left{text-align:center}
-.logo{font-size:clamp(30px,8vh,56px);font-weight:900;line-height:1.1;background:linear-gradient(180deg,#ffe259,#ff71ce 55%,#01cdfe);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35))}
+.logo{font-size:clamp(30px,8vh,56px);font-weight:900;font-style:italic;line-height:1.1;background:linear-gradient(180deg,#fff6c0,#ffe259 25%,#ff71ce 58%,#01cdfe);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(59,10,90,.9)) drop-shadow(0 0 16px rgba(255,113,206,.55))}
 .logo small{display:block;font-size:.4em;letter-spacing:6px;color:#fff;-webkit-text-fill-color:#ffe259}
 .sub{color:#ffd7f4;font-size:clamp(13px,3vh,17px);margin:6px 0 12px}
 .rules{font-size:13.5px;line-height:1.7;color:#efeaff;background:rgba(255,255,255,.06);border-radius:12px;padding:9px 13px}
@@ -80,7 +82,7 @@ body.touch #touch{display:flex}
 <canvas id="game"></canvas>
 
 <div class="hud" id="tl">
-  <canvas id="minimap" width="260" height="200"></canvas>
+  <canvas id="minimap" width="240" height="240"></canvas>
   <div id="missionBox"><h3>🎯 মিশন</h3><p id="missionText">লোড হচ্ছে…</p><p id="garageTxt"></p></div>
 </div>
 <div class="hud" id="tr">
@@ -182,7 +184,7 @@ function R(a,b){return a+Math.random()*(b-a);}
 function pickR(a){return a[Math.floor(Math.random()*a.length)];}
 
 const DISTRICTS=['মতিঝিল','ধানমন্ডি','গুলশান','মিরপুর','উত্তরা','বনানী','মোহাম্মদপুর','সদরঘাট','ওয়ারী','তেজগাঁও','বাড্ডা','খিলগাঁও','লালবাগ','রমনা','শাহবাগ','পল্টন','যাত্রাবাড়ী','ডেমরা'];
-const BCOLORS=['#ffb3d9','#ffd9a0','#a0e7ff','#d5ffa0','#ffe3f1','#c9b8ff','#ffc4a3','#a3ffd6','#fff3b0','#f9a8d4'];
+const BCOLORS=['#ffc2dd','#ffd9a8','#a8e6ff','#b8f1cc','#ffe5ec','#d0bfff','#ffc8a2','#a3f7d6','#fff3b0','#f9a8d4','#fdf0d5','#8fd8e8','#ffb4a2','#c8f7dc'];
 const blocks=[],buildings=[],palms=[];
 (function buildCity(){
   const xs=[-60,...VROADS,4290],ys=[-60,...HROADS,3810];
@@ -193,7 +195,7 @@ const blocks=[],buildings=[],palms=[];
     if(x1-x0<120||y1-y0<120)continue;
     const blk={sx,sy,sw,sh,x0,y0,x1,y1,cx:(x0+x1)/2,cy:(y0+y1)/2,name:DISTRICTS[di++%DISTRICTS.length],park:false};
     blocks.push(blk);
-    if(rnd()<0.16){blk.park=true;for(let t=0;t<9;t++)palms.push({x:rr(x0+20,x1-20),y:rr(y0+20,y1-20)});continue;}
+    if(rnd()<0.16){blk.park=true;for(let t=0;t<14;t++)palms.push({x:rr(x0+20,x1-20),y:rr(y0+20,y1-20)});continue;}
     const n=3+Math.floor(rnd()*4);
     for(let k=0;k<n;k++){
       const bw=rr(90,170),bh=rr(90,170);
@@ -209,8 +211,8 @@ function hitBuilding(x,y,r){
   return null;
 }
 (function beachPalms(){
-  for(let y=150;y<H-100;y+=rr(120,220))palms.push({x:rr(SANDX+40,WATERX-40),y});
-  for(let y=160;y<H-100;y+=rr(220,360)){const x=rr(4230,4350);if(!hitBuilding(x,y,10))palms.push({x,y});}
+  for(let y=150;y<H-100;y+=rr(75,150))palms.push({x:rr(SANDX+40,WATERX-40),y});
+  for(let y=160;y<H-100;y+=rr(140,260)){const x=rr(4230,4350);if(!hitBuilding(x,y,10))palms.push({x,y});}
 })();
 function roadPoint(){
   if(Math.random()<0.5){const x=pickR(VROADS);return{x:x+R(-40,40),y:R(150,H-150)};}
@@ -230,15 +232,15 @@ catch(e){showFatal('তোমার ব্রাউজারে WebGL (3D) চ�
 let quality=lsGet('dvc3d_quality',isMobile?'low':'high');
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 const scene=new THREE.Scene();
-const FOG=0xf3a6cf;
+const FOG=0xf2a0b5;
 scene.fog=new THREE.Fog(FOG,650,2600);
 const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,3,6500);
-scene.add(new THREE.HemisphereLight(0xffd9f0,0x5a7a4a,0.9));
-const sun=new THREE.DirectionalLight(0xfff1d6,0.85);
+scene.add(new THREE.HemisphereLight(0xffe3f2,0x8a6a4a,0.95));
+const sun=new THREE.DirectionalLight(0xffb066,0.95);
 sun.shadow.mapSize.set(1024,1024);
 {const sc=sun.shadow.camera;sc.left=-380;sc.right=380;sc.top=380;sc.bottom=-380;sc.near=10;sc.far=2000;sun.shadow.bias=-0.0006;}
 scene.add(sun);scene.add(sun.target);
-const SUNDIR=new THREE.Vector3(-0.6,0.62,0.5).normalize();
+const SUNDIR=new THREE.Vector3(-0.62,0.40,0.48).normalize();
 function applyQuality(){
   const pr=quality==='high'?Math.min(window.devicePixelRatio||1,isMobile?1.5:2):1;
   renderer.setPixelRatio(pr);renderer.setSize(innerWidth,innerHeight);
@@ -251,7 +253,7 @@ addEventListener('resize',onResize);
 
 /* আকাশ + সূর্য */
 const skyTex=(function(){const c=document.createElement('canvas');c.width=8;c.height=512;const g=c.getContext('2d');
-  const gr=g.createLinearGradient(0,0,0,512);gr.addColorStop(0,'#1d1450');gr.addColorStop(0.3,'#5b2f93');gr.addColorStop(0.45,'#ff71ce');gr.addColorStop(0.5,'#f3a6cf');gr.addColorStop(1,'#f3a6cf');
+  const gr=g.createLinearGradient(0,0,0,512);gr.addColorStop(0,'#1e1150');gr.addColorStop(0.25,'#5b2a86');gr.addColorStop(0.4,'#c13b92');gr.addColorStop(0.48,'#ff5e7a');gr.addColorStop(0.53,'#ff9e5e');gr.addColorStop(0.58,'#ffd98a');gr.addColorStop(1,'#8a5a8e');
   g.fillStyle=gr;g.fillRect(0,0,8,512);return new THREE.CanvasTexture(c);})();
 const sky=new THREE.Mesh(new THREE.SphereGeometry(5000,24,16),new THREE.MeshBasicMaterial({map:skyTex,side:THREE.BackSide,fog:false,depthWrite:false}));
 sky.renderOrder=-2;scene.add(sky);
@@ -286,18 +288,18 @@ function emojiSprite(e,size){
 
 /* ---------- মাটি, বালু, পানি ---------- */
 {
-  const ground=new THREE.Mesh(new THREE.PlaneGeometry(14000,14000).rotateX(-Math.PI/2),lam('#8fce6e'));
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(14000,14000).rotateX(-Math.PI/2),lam('#86c95e'));
   ground.position.set(W/2,0,H/2);ground.receiveShadow=true;scene.add(ground);
-  const sand=new THREE.Mesh(new THREE.PlaneGeometry(WATERX-SANDX+10,H+3000).rotateX(-Math.PI/2),lam('#f6e3ac'));
+  const sand=new THREE.Mesh(new THREE.PlaneGeometry(WATERX-SANDX+10,H+3000).rotateX(-Math.PI/2),lam('#faedbe'));
   sand.position.set((SANDX+WATERX)/2+5,0.15,H/2);sand.receiveShadow=true;scene.add(sand);
 }
 const waterTexture=(function(){
   const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
-  g.fillStyle='#2a9fd8';g.fillRect(0,0,128,128);g.strokeStyle='rgba(255,255,255,.38)';g.lineWidth=3;
+  g.fillStyle='#14b8cc';g.fillRect(0,0,128,128);g.strokeStyle='rgba(255,255,255,.38)';g.lineWidth=3;
   for(let k=0;k<5;k++){g.beginPath();const y0=12+k*26;for(let x=0;x<=128;x+=8){const yy=y0+Math.sin(x/128*Math.PI*4+k)*4;if(x===0)g.moveTo(x,yy);else g.lineTo(x,yy);}g.stroke();}
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(50,140);return t;
 })();
-const water=new THREE.Mesh(new THREE.PlaneGeometry(5000,14000).rotateX(-Math.PI/2),new THREE.MeshPhongMaterial({color:0x4ab6e8,map:waterTexture,shininess:90,specular:0xffe0f0}));
+const water=new THREE.Mesh(new THREE.PlaneGeometry(5000,14000).rotateX(-Math.PI/2),new THREE.MeshPhongMaterial({color:0xd8fbff,map:waterTexture,shininess:110,specular:0xffe0f0}));
 water.position.set(WATERX+2500,0.25,H/2);scene.add(water);
 const foam=new THREE.Mesh(new THREE.PlaneGeometry(18,H+3000).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.5,depthWrite:false}));
 foam.position.set(WATERX+4,0.35,H/2);scene.add(foam);
@@ -305,7 +307,7 @@ foam.position.set(WATERX+4,0.35,H/2);scene.add(foam);
 /* ---------- রাস্তা ---------- */
 const roadTexture=(function(){
   const c=document.createElement('canvas');c.width=64;c.height=128;const g=c.getContext('2d');
-  g.fillStyle='#3c414d';g.fillRect(0,0,64,128);g.fillStyle='rgba(255,255,255,.14)';g.fillRect(4,0,2,128);g.fillRect(58,0,2,128);
+  g.fillStyle='#46424e';g.fillRect(0,0,64,128);g.fillStyle='rgba(255,255,255,.14)';g.fillRect(4,0,2,128);g.fillRect(58,0,2,128);
   g.fillStyle='#ffd95a';g.fillRect(30,6,4,56);
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t;
 })();
@@ -335,9 +337,9 @@ for(const y of HROADS)roadMesh(4500,2050,0.3,y,true);
 
 /* ---------- ফুটপাত ব্লক, পার্ক ---------- */
 for(const b of blocks){
-  const m=new THREE.Mesh(boxGeo,lam('#d8c9a3'));m.scale.set(b.sw,SIDE_Y,b.sh);m.position.set(b.sx+b.sw/2,SIDE_Y/2,b.sy+b.sh/2);m.receiveShadow=true;scene.add(m);
-  if(b.park){const p=new THREE.Mesh(boxGeo,lam('#79c95f'));p.scale.set(b.x1-b.x0,0.3,b.y1-b.y0);p.position.set(b.cx,SIDE_Y+0.15,b.cy);p.receiveShadow=true;scene.add(p);}
-  const lab=textSprite(b.name,b.park?120:170);lab.position.set(b.cx,b.park?70:215,b.cy);lab.material.opacity=0.85;scene.add(lab);
+  const m=new THREE.Mesh(boxGeo,lam('#e2d3ac'));m.scale.set(b.sw,SIDE_Y,b.sh);m.position.set(b.sx+b.sw/2,SIDE_Y/2,b.sy+b.sh/2);m.receiveShadow=true;scene.add(m);
+  if(b.park){const p=new THREE.Mesh(boxGeo,lam('#6fbf57'));p.scale.set(b.x1-b.x0,0.3,b.y1-b.y0);p.position.set(b.cx,SIDE_Y+0.15,b.cy);p.receiveShadow=true;scene.add(p);}
+  const lab=textSprite(b.name,b.park?120:170,'#ffe3f7');lab.position.set(b.cx,b.park?70:215,b.cy);lab.material.opacity=0.85;scene.add(lab);
 }
 
 /* ---------- বিল্ডিং ---------- */
@@ -345,7 +347,7 @@ const winBase=[];
 for(let v=0;v<3;v++){
   const c=document.createElement('canvas');c.width=128;c.height=40;const g=c.getContext('2d');
   g.fillStyle='#ffffff';g.fillRect(0,0,128,40);g.fillStyle='rgba(0,0,0,.07)';g.fillRect(0,37,128,3);
-  for(let k=0;k<4;k++){g.fillStyle=Math.random()<[0,0.22,0.5][v]?'#ffe08a':'#3b4a7a';g.fillRect(k*32+8,8,16,22);}
+  for(let k=0;k<4;k++){g.fillStyle=Math.random()<[0.3,0.5,0.7][v]?'#ffd98a':'#4a5a8a';g.fillRect(k*32+8,8,16,22);}
   winBase.push(c);
 }
 const winCache={};
@@ -361,6 +363,21 @@ for(const b of buildings){
   const roof=new THREE.MeshLambertMaterial({color:new THREE.Color(b.c).multiplyScalar(0.78)});
   const m=new THREE.Mesh(new THREE.BoxGeometry(b.w,hgt,b.h),[mx,mx,roof,roof,mz,mz]);
   m.position.set(b.x+b.w/2,SIDE_Y+hgt/2,b.y+b.h/2);m.castShadow=true;scene.add(m);
+  // আর্ট-ডেকো সাদা কার্নিশ (ছাদের ধারে)
+  scene.add(box(b.w+7,5,b.h+7,lam('#fff6ea'),b.x+b.w/2,SIDE_Y+hgt+1.5,b.y+b.h/2,false));
+  scene.add(box(b.w+4,7,b.h+4,lam('#fff6ea'),b.x+b.w/2,SIDE_Y+3.5,b.y+b.h/2,false));
+  // নিয়ন সাইন — কিছু বিল্ডিংয়ের গায়ে গোলাপি/সায়ান গ্লো বার
+  if(Math.random()<0.38){
+    const neon=pickR(['#ff2fb3','#00e5ff','#ffe259','#7cff6b']);
+    const sign=box(2,hgt*0.5,13,bas(neon),b.x+b.w+1.5,SIDE_Y+hgt*0.55,b.y+b.h/2,false);scene.add(sign);
+    const sign2=box(13,hgt*0.5,2,bas(neon),b.x+b.w/2,SIDE_Y+hgt*0.55,b.y+b.h+1.5,false);scene.add(sign2);
+  }
+  // ছাদে নিয়ন নাম-সাইন (হোটেল/ক্যাফে)
+  if(Math.random()<0.24){
+    const neonC=pickR(['#ff71ce','#01cdfe','#ffe259']);
+    const ns=textSprite(pickR(['হোটেল','HOTEL','ক্যাফে','হোটেল']),110,neonC);
+    ns.position.set(b.x+b.w/2,SIDE_Y+hgt+22,b.y+b.h/2);scene.add(ns);
+  }
   if(Math.random()<0.5)scene.add(box(b.w*0.3,6,b.h*0.3,lam('#7a7a88'),b.x+b.w*0.3,SIDE_Y+hgt+3,b.y+b.h*0.6,false));
 }
 
@@ -406,7 +423,7 @@ const CAR_TYPES={
   bus:{len:88,wid:28,bh:22,ch:0,cl:0,cx:0,vmax:240,acc:90,turn:1.25},
   cop:{len:48,wid:25,bh:9,ch:8,cl:24,cx:-3,vmax:300,acc:150,turn:2}
 };
-const CARCOLORS=['#ff71ce','#01cdfe','#fffb96','#05ffa1','#ff9f43','#c56cf0','#ff6b81','#7bed9f','#eccc68','#f368e0'];
+const CARCOLORS=['#ffffff','#ffd1ec','#a8e6ff','#b8f1cc','#fff3b0','#ff8fa3','#7fe7f2','#e3c8ff','#f6d99b','#ff6b4a','#c0c8d0','#8affd1','#ffd9a8','#f9a8d4'];
 const wheelGeo=new THREE.CylinderGeometry(5,5,4,10).rotateX(Math.PI/2);
 function buildCarMesh(type,color){
   const T=CAR_TYPES[type],g=new THREE.Group(),body=type==='cop'?'#f5f6fa':color,y0=5;
@@ -416,8 +433,11 @@ function buildCarMesh(type,color){
     g.add(box(T.len-2,1.2,T.wid-2,lam('#f5f6fa'),0,y0+T.bh+0.6,0,false));
   }else{
     g.add(box(T.cl,T.ch,T.wid-4,glass,T.cx,y0+T.bh+T.ch/2,0,true));
-    g.add(box(T.cl-2,1.2,T.wid-6,lam(type==='cng'?'#222':body),T.cx,y0+T.bh+T.ch+0.6,0,false));
+    g.add(box(T.cl-2,1.2,T.wid-6,lam(type==='cng'?'#222':(type==='sedan'||type==='sport')?'#fff6ea':body),T.cx,y0+T.bh+T.ch+0.6,0,false));
   }
+  // ক্রোম বাম্পার (৮০র দশকের স্টাইল)
+  g.add(box(2.2,3,T.wid-2,lam('#cfd2dc'),T.len/2+0.6,y0+3,0,false));
+  g.add(box(2.2,3,T.wid-2,lam('#cfd2dc'),-T.len/2-0.6,y0+3,0,false));
   const wx=T.len*0.3;
   for(const sx of [-1,1])for(const sz of [-1,1]){const w=new THREE.Mesh(wheelGeo,wheelMat);w.position.set(sx*wx,5,sz*(T.wid/2-1));g.add(w);}
   for(const sz of [-1,1]){
@@ -463,9 +483,20 @@ function spawnTraffic(){
 
 /* ---------- মানুষ ---------- */
 const pBody=new THREE.CylinderGeometry(3.4,3.2,10,8),pHead=new THREE.SphereGeometry(3.1,8,6),pLeg=new THREE.BoxGeometry(2.4,6,2.4);
+const hawaiiMat=(function(){
+  const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
+  g.fillStyle='#0ea5b7';g.fillRect(0,0,128,128);
+  const fc=['#ff71ce','#ffffff','#ffd166','#ff8fa3'];
+  for(let i=0;i<26;i++){const x=Math.random()*128,y=Math.random()*128,col=fc[i%4];g.fillStyle=col;
+    for(let k=0;k<5;k++){const a=k/5*Math.PI*2;g.beginPath();g.arc(x+Math.cos(a)*4,y+Math.sin(a)*4,3.2,0,6.29);g.fill();}
+    g.fillStyle='#fff3b0';g.beginPath();g.arc(x,y,2.2,0,6.29);g.fill();}
+  return new THREE.MeshLambertMaterial({map:new THREE.CanvasTexture(c)});
+})();
 function buildPed(color,scale){
   const g=new THREE.Group();
-  const b=new THREE.Mesh(pBody,lam(color));b.position.y=9;b.castShadow=true;g.add(b);
+  const hero=(color==='hawaii');
+  const b=new THREE.Mesh(pBody,hero?hawaiiMat:lam(color));b.position.y=9;b.castShadow=true;g.add(b);
+  if(hero)g.add(box(1.2,1.5,5.6,lam('#14141c'),3,17.4,0,false)); // সানগ্লাস
   const h=new THREE.Mesh(pHead,lam('#ffd9b3'));h.position.y=16.8;g.add(h);
   g.add(box(1.2,1.2,3.6,lam('#3a2a20'),2.6,17.2,0,false));
   for(const sz of [-1,1]){const l=new THREE.Mesh(pLeg,lam('#3b3b55'));l.position.set(0,3,sz*1.8);g.add(l);}
@@ -482,7 +513,7 @@ function spawnPeds(){
 /* ---------- খেলোয়াড় ও অবস্থা ---------- */
 const SPAWN={x:450,y:900};
 const P={x:SPAWN.x,y:SPAWN.y,angle:Math.PI/2,inCar:null,health:100,hitCD:0,gy:ROAD_Y,moving:false};
-const pMesh=buildPed('#ff71ce',1.35);
+const pMesh=buildPed('hawaii',1.35);
 {const ring=new THREE.Mesh(new THREE.RingGeometry(9,11,24).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({color:0xffe259,transparent:true,opacity:0.9}));ring.position.y=0.4;pMesh.add(ring);}
 scene.add(pMesh);
 let money=600,totalEarned=0,wanted=0,crimeTimer=0,bust=0,dead=false,started=false,paused=false,timeSec=0,shake=0;
@@ -851,13 +882,13 @@ function syncAll(dt){
 }
 
 /* ---------- মিনিম্যাপ ---------- */
-const mm=$('minimap'),mmx=mm.getContext('2d'),MS=Math.min(mm.width/W,mm.height/H);
+const mm=$('minimap'),mmx=mm.getContext('2d'),MS=Math.min(mm.width/W,mm.height/H),MO=(mm.height-H*MS)/2;
 const mmStatic=document.createElement('canvas');mmStatic.width=mm.width;mmStatic.height=mm.height;
 (function(){
   const g=mmStatic.getContext('2d');
-  g.fillStyle='#2f5a2f';g.fillRect(0,0,mm.width,mm.height);
-  g.fillStyle='#e8d9a0';g.fillRect(SANDX*MS,0,(WATERX-SANDX)*MS,mm.height);
-  g.fillStyle='#1e90d6';g.fillRect(WATERX*MS,0,mm.width-WATERX*MS,mm.height);
+  g.fillStyle='#17a2c6';g.fillRect(0,0,mm.width,mm.height);g.fillStyle='#2f5a2f';g.fillRect(0,0,WATERX*MS,H*MS);
+  g.fillStyle='#e8d9a0';g.fillRect(SANDX*MS,0,(WATERX-SANDX)*MS,H*MS);
+  g.fillStyle='#1e90d6';g.fillRect(WATERX*MS,0,mm.width-WATERX*MS,H*MS);
   g.fillStyle='#3c414d';
   for(const x of VROADS)g.fillRect(x*MS-ROADW*MS/2,0,ROADW*MS,H*MS);
   for(const y of HROADS)g.fillRect(0,y*MS-ROADW*MS/2,4300*MS,ROADW*MS);
@@ -865,10 +896,10 @@ const mmStatic=document.createElement('canvas');mmStatic.width=mm.width;mmStatic
   g.fillStyle='#ffe259';g.fillRect(GARAGE.x*MS-4,GARAGE.y*MS-4,8,8);
 })();
 function drawMinimap(){
-  mmx.drawImage(mmStatic,0,0);
-  if(mission){mmx.fillStyle='#ff2fb3';mmx.beginPath();mmx.arc(mission.tx*MS,mission.ty*MS,6+Math.sin(timeSec*5)*1.6,0,6.29);mmx.fill();}
-  mmx.fillStyle='#ff3838';for(const c of cops){mmx.beginPath();mmx.arc(c.x*MS,c.y*MS,3.5,0,6.29);mmx.fill();}
-  mmx.save();mmx.translate(P.x*MS,P.y*MS);mmx.rotate(P.angle);
+  mmx.drawImage(mmStatic,0,MO);
+  if(mission){mmx.fillStyle='#ff2fb3';mmx.beginPath();mmx.arc(mission.tx*MS,mission.ty*MS+MO,6+Math.sin(timeSec*5)*1.6,0,6.29);mmx.fill();}
+  mmx.fillStyle='#ff3838';for(const c of cops){mmx.beginPath();mmx.arc(c.x*MS,c.y*MS+MO,3.5,0,6.29);mmx.fill();}
+  mmx.save();mmx.translate(P.x*MS,P.y*MS+MO);mmx.rotate(P.angle);
   mmx.fillStyle='#ffe259';mmx.strokeStyle='#000';mmx.lineWidth=1;mmx.beginPath();mmx.moveTo(8,0);mmx.lineTo(-6,-5);mmx.lineTo(-3,0);mmx.lineTo(-6,5);mmx.closePath();mmx.fill();mmx.stroke();
   mmx.restore();
 }
