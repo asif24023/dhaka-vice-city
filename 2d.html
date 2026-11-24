@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ঢাকা ভাইস সিটি — বাংলা ওপেন ওয়ার্ল্ড গেম</title>
+<meta name="description" content="GTA Vice City ধাঁচের বাংলা ওপেন ওয়ার্ল্ড ওয়েব গেম — গাড়ি চালাও, মিশন করো, পুলিশের হাত থেকে পালাও!">
+<meta property="og:title" content="ঢাকা ভাইস সিটি — বাংলা গেম">
+<meta property="og:description" content="বাংলা ওপেন ওয়ার্ল্ড গেম: গাড়ি, মিশন, পুলিশের তাড়া — সব ফোনে/কম্পিউটারে, ইন্সটল ছাড়াই।">
+<meta name="theme-color" content="#1a1033">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1033;font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;color:#fff;touch-action:none;user-select:none}
+#game{position:fixed;inset:0;display:block}
+.hud{position:fixed;z-index:5;pointer-events:none}
+#topbar{top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:8px 10px;gap:8px}
+#minimap{width:150px;height:112px;border:2px solid rgba(255,255,255,.55);border-radius:10px;background:#223;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+#stats{text-align:right}
+#money{font-size:26px;font-weight:800;color:#7dff8a;text-shadow:0 2px 6px rgba(0,0,0,.7);letter-spacing:.5px}
+#stars{font-size:20px;color:#ffd83d;letter-spacing:2px;text-shadow:0 2px 6px rgba(0,0,0,.8);min-height:26px}
+#stars .off{color:rgba(255,255,255,.25)}
+.bar{width:170px;height:12px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.5);border-radius:7px;margin:4px 0 0 auto;overflow:hidden}
+.bar>i{display:block;height:100%;transition:width .2s}
+#healthFill{background:linear-gradient(90deg,#ff5f6d,#ffc371);width:100%}
+#speed{font-size:15px;font-weight:700;color:#bfe9ff;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+#missionBox{top:126px;left:10px;max-width:min(330px,72vw);background:rgba(16,10,38,.78);border:1px solid rgba(255,150,220,.55);border-left:5px solid #ff71ce;border-radius:10px;padding:8px 11px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+#missionBox h3{font-size:15px;color:#ffd7f4;margin-bottom:2px}
+#missionBox p{font-size:13.5px;line-height:1.45;color:#f2ecff}
+#missionBox .dist{color:#7dff8a;font-weight:700}
+#toast{top:18%;left:50%;transform:translateX(-50%);font-size:clamp(19px,4.5vw,32px);font-weight:800;text-align:center;color:#fff;text-shadow:0 3px 10px rgba(0,0,0,.85);opacity:0;transition:opacity .3s;white-space:nowrap}
+#toast.show{opacity:1}
+#hint{bottom:118px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);padding:6px 14px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .25s;white-space:nowrap}
+#hint.show{opacity:1}
+.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 35%,rgba(90,30,120,.88),rgba(12,6,30,.96));padding:16px}
+.card{max-width:560px;width:100%;text-align:center;background:rgba(24,14,52,.85);border:1px solid rgba(255,150,220,.4);border-radius:20px;padding:26px 22px;box-shadow:0 20px 60px rgba(0,0,0,.6);max-height:92vh;overflow:auto}
+.logo{font-size:clamp(34px,8vw,58px);font-weight:900;line-height:1.08;background:linear-gradient(180deg,#ffe259,#ff71ce 55%,#01cdfe);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35))}
+.sub{color:#ffd7f4;font-size:clamp(14px,3.4vw,18px);margin:6px 0 14px}
+.rules{text-align:left;font-size:14.5px;line-height:1.75;color:#efeaff;background:rgba(255,255,255,.06);border-radius:12px;padding:12px 16px;margin:0 auto 16px}
+.rules b{color:#7dff8a}
+.btn{pointer-events:auto;cursor:pointer;border:none;border-radius:40px;padding:13px 34px;font-size:19px;font-weight:800;font-family:inherit;color:#24103d;background:linear-gradient(90deg,#ffe259,#ff71ce);box-shadow:0 6px 20px rgba(255,113,206,.45);transition:transform .12s}
+.btn:active{transform:scale(.96)}
+.small{font-size:12.5px;color:#bdb2e0;margin-top:12px;line-height:1.6}
+.hidden{display:none!important}
+#touch{position:fixed;inset:auto 0 0 0;z-index:8;display:none;justify-content:space-between;align-items:flex-end;padding:0 12px 14px;pointer-events:none}
+body.touch #touch{display:flex}
+.dpad{display:grid;grid-template-columns:52px 52px 52px;grid-template-rows:52px 52px 52px;gap:4px;pointer-events:auto}
+.dpad button,.abtn{border:1.5px solid rgba(255,255,255,.5);background:rgba(20,12,44,.55);color:#fff;font-size:21px;border-radius:14px;backdrop-filter:blur(2px)}
+.dpad button:active,.abtn:active{background:rgba(255,113,206,.55)}
+.dpad .e{visibility:hidden}
+.arow{display:flex;flex-direction:column;gap:10px;pointer-events:auto;align-items:center}
+.abtn{width:64px;height:64px;border-radius:50%;font-size:24px}
+#btnAction{width:74px;height:74px;background:rgba(255,180,40,.6);font-size:27px}
+.credit{position:fixed;bottom:6px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,.55);z-index:4;pointer-events:none;white-space:nowrap}
+@media (max-width:640px){#minimap{width:104px;height:78px}.bar{width:120px}#money{font-size:20px}#missionBox{top:92px}}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div class="hud" id="topbar">
+  <canvas id="minimap" width="300" height="224"></canvas>
+  <div id="stats">
+    <div id="stars"></div>
+    <div id="money">৳ ০</div>
+    <div class="bar"><i id="healthFill"></i></div>
+    <div id="speed"></div>
+  </div>
+</div>
+<div class="hud" id="missionBox"><h3>🎯 মিশন</h3><p id="missionText">লোড হচ্ছে…</p></div>
+<div class="hud" id="toast"></div>
+<div class="hud" id="hint"></div>
+<div class="credit">ঢাকা ভাইস সিটি — তৈরি: MD Asif Ahmed Fahim</div>
+
+<div id="touch">
+  <div class="dpad">
+    <button class="e"></button><button data-k="up">▲</button><button class="e"></button>
+    <button data-k="left">◀</button><button class="e"></button><button data-k="right">▶</button>
+    <button class="e"></button><button data-k="down">▼</button><button class="e"></button>
+  </div>
+  <div class="arow">
+    <button class="abtn" id="btnAction">🚗</button>
+    <button class="abtn" id="btnHorn">📣</button>
+  </div>
+</div>
+
+<div class="overlay" id="startScreen">
+  <div class="card">
+    <div class="logo">ঢাকা ভাইস সিটি</div>
+    <div class="sub">🌴 GTA Vice City ধাঁচের বাংলা ওপেন ওয়ার্ল্ড গেম 🚗</div>
+    <div class="rules">
+      🏃 <b>হাঁটা:</b> WASD / তীর চিহ্ন (ফোনে D-pad)<br>
+      🚗 <b>গাড়িতে ওঠা/নামা:</b> গাড়ির কাছে গিয়ে <b>E</b> চাপো<br>
+      🏎️ <b>গাড়ি চালানো:</b> W = গ্যাস, S = ব্রেক/রিভার্স, A/D = মোড়<br>
+      🎯 <b>মিশন:</b> গোলাপি মার্কারে যাও — টাকা কামাও!<br>
+      ⭐ <b>সাবধান:</b> মানুষ/গাড়িতে ধাক্কা দিলে পুলিশ তাড়া করবে। ধরা পড়লেই বাজেয়াপ্ত!<br>
+      🔧 পুলিশের হাত থেকে বাঁচতে <b>গ্যারেজে (🔧)</b> ঢুকলেই ওয়ান্টেড মুছে যাবে (খরচ ৳৫০০)
+    </div>
+    <button class="btn" id="btnStart">▶ খেলা শুরু করো</button>
+    <div class="small">ইন্সটল লাগবে না — ফোনে ও কম্পিউটারে সরাসরি ব্রাউজারেই চলবে।<br>সেরা স্কোর তোমার ব্রাউজারেই সেভ থাকবে।</div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="endScreen">
+  <div class="card">
+    <div class="logo" id="endTitle">ধরা পড়েছো!</div>
+    <div class="sub" id="endText"></div>
+    <button class="btn" id="btnAgain">🔄 আবার খেলো</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ================= ঢাকা ভাইস সিটি — বাংলা ওপেন ওয়ার্ল্ড গেম ================= */
+const cv=document.getElementById('game'),ctx=cv.getContext('2d');
+const mm=document.getElementById('minimap'),mmx=mm.getContext('2d');
+let VW=0,VH=0,DPR=1;
+function resize(){DPR=Math.min(devicePixelRatio||1,2);VW=innerWidth;VH=innerHeight;cv.width=VW*DPR;cv.height=VH*DPR;cv.style.width=VW+'px';cv.style.height=VH+'px';}
+addEventListener('resize',resize);resize();
+
+/* ---------- বিশ্ব (ওয়ার্ল্ড) ---------- */
+const W=3400,H=2600;
+const VROADS=[300,900,1500,2100,2620],HROADS=[300,900,1500,2100],ROADW=150;
+const SANDX=2920,WATERX=3120;
+let seed=42;function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
+function rr(a,b){return a+rnd()*(b-a);}
+function pick(arr){return arr[Math.floor(rnd()*arr.length)];}
+
+const DISTRICTS=['মতিঝিল','ধানমন্ডি','গুলশান','মিরপুর','উত্তরা','বনানী','মোহাম্মদপুর','সদরঘাট','ওয়ারী','তেজগাঁও','বাড্ডা','খিলগাঁও','লালবাগ','রমনা','শাহবাগ','পল্টন','যাত্রাবাড়ী','ডেমরা'];
+const buildings=[],palms=[],parks=[];
+const BCOLORS=['#ffb3d9','#ffd9a0','#a0e7ff','#d5ffa0','#ffe3f1','#c9b8ff','#ffc4a3','#a3ffd6','#fff3b0','#f9a8d4'];
+(function buildCity(){
+  const xs=[-60,...VROADS,2860],ys=[-60,...HROADS,2540];
+  let di=0;
+  for(let i=0;i<xs.length-1;i++)for(let j=0;j<ys.length-1;j++){
+    const x0=xs[i]+ROADW/2+14,x1=xs[i+1]-ROADW/2-14,y0=ys[j]+ROADW/2+14,y1=ys[j+1]-ROADW/2-14;
+    if(x1-x0<120||y1-y0<120)continue;
+    const cx=(x0+x1)/2,cy=(y0+y1)/2;
+    if(rnd()<0.16){parks.push({x:x0,y:y0,w:x1-x0,h:y1-y0,name:DISTRICTS[di++%DISTRICTS.length]});
+      for(let t=0;t<7;t++)palms.push({x:rr(x0+20,x1-20),y:rr(y0+20,y1-20)});continue;}
+    const name=DISTRICTS[di++%DISTRICTS.length];
+    parks.push({x:x0,y:y0,w:0,h:0,name,cx,cy,labelOnly:true});
+    const n=2+Math.floor(rnd()*3);
+    for(let k=0;k<n;k++){
+      const bw=rr(90,170),bh=rr(90,170);
+      const bx=rr(x0,x1-bw),by=rr(y0,y1-bh);
+      if(buildings.some(b=>bx<b.x+b.w+16&&bx+bw+16>b.x&&by<b.y+b.h+16&&by+bh+16>b.y))continue;
+      buildings.push({x:bx,y:by,w:bw,h:bh,c:pick(BCOLORS),floors:3+Math.floor(rnd()*9)});
+    }
+  }
+  for(let y=120;y<H-80;y+=rr(120,220))palms.push({x:rr(2960,3060),y});
+  for(let y=140;y<H-80;y+=rr(200,340))palms.push({x:rr(2660,2820),y});
+})();
+function hitBuilding(x,y,r){
+  for(const b of buildings){if(x>b.x-r&&x<b.x+b.w+r&&y>b.y-r&&y<b.y+b.h+r)return b;}
+  return null;
+}
+function inWater(x){return x>WATERX;}
+function roadPoint(){
+  if(rnd()<0.5){const x=pick(VROADS);return{x:x+rr(-40,40),y:rr(120,H-120)};}
+  const y=pick(HROADS);return{x:rr(120,2820),y:y+rr(-40,40)};
+}
+
+/* ---------- সাউন্ড (ছোট্ট WebAudio বীপ) ---------- */
+let AC=null;function audio(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();}
+function beep(f,d,type,g){if(!AC)return;const o=AC.createOscillator(),v=AC.createGain();o.type=type||'square';o.frequency.value=f;v.gain.value=g||0.05;o.connect(v);v.connect(AC.destination);o.start();v.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+(d||0.12));o.stop(AC.currentTime+(d||0.12));}
+function horn(){beep(340,0.22,'square',0.07);setTimeout(()=>beep(340,0.28,'square',0.07),60);}
+function coin(){beep(880,0.09,'square',0.06);setTimeout(()=>beep(1320,0.16,'square',0.06),90);}
+function sirenTone(t){if(AC&&wanted>0&&Math.floor(t*1.4)%2===0&&!sirenTone.l){sirenTone.l=true;beep(660,0.3,'triangle',0.025);}else if(Math.floor(t*1.4)%2===1)sirenTone.l=false;}
+
+/* ---------- গাড়ি ---------- */
+const CARCOLORS=['#ff71ce','#01cdfe','#fffb96','#05ffa1','#ff9f43','#c56cf0','#ff6b81','#7bed9f','#eccc68','#f368e0'];
+let cars=[],peds=[],cops=[];
+function makeCar(x,y,angle,traffic){
+  return{x,y,angle:angle||0,speed:0,color:pick(CARCOLORS),w:46,l:24,traffic:!!traffic,
+    dirx:0,diry:0,road:null,axis:null,dir:1,lane:0,health:100,driver:false};
+}
+function spawnTraffic(){
+  cars=[];
+  for(let i=0;i<15;i++){
+    const horiz=rnd()<0.5;let c;
+    if(horiz){const y=pick(HROADS);c=makeCar(rr(80,2800),y+(rnd()<0.5?-36:36),0,true);c.axis='h';c.dir=c.y%1?1:1;c.dir=(Math.round(c.y)%2===0)?1:-1;c.lane=(c.dir>0)?36:-36;c.y=y+c.lane;c.angle=c.dir>0?0:Math.PI;}
+    else{const x=pick(VROADS);c=makeCar(x+(rnd()<0.5?-36:36),rr(80,H-80),0,true);c.axis='v';c.dir=(Math.round(x)%2===0)?1:-1;c.lane=(c.dir>0)?36:-36;c.x=x+c.lane;c.angle=c.dir>0?Math.PI/2:-Math.PI/2;}
+    c.speed=rr(1.4,2.4);cars.push(c);
+  }
+  // পার্ক করা গাড়ি
+  for(let i=0;i<16;i++){
+    const p=roadPoint();const c=makeCar(p.x+rr(52,64)*(rnd()<0.5?-1:1),p.y,Math.PI/2*(Math.floor(rnd()*4)),false);
+    if(!hitBuilding(c.x,c.y,30)&&!inWater(c.x))cars.push(c);
+  }
+}
+function spawnPeds(){
+  peds=[];
+  for(let i=0;i<30;i++){
+    let x,y,tries=0;
+    do{x=rr(80,2850);y=rr(80,H-80);tries++;}while(hitBuilding(x,y,16)&&tries<20);
+    peds.push({x,y,angle:rr(0,6.28),speed:rr(0.35,0.7),c:pick(BCOLORS),wt:rr(0,3),flee:0,down:0});
+  }
+}
+
+/* ---------- খেলোয়াড় ও গেমের অবস্থা ---------- */
+const P={x:300,y:470,angle:0,speed:0,inCar:null,health:100};
+let money=parseInt(localStorage.getItem('dvc_best')||'0')>0?0:0,totalEarned=0;
+let wanted=0,crimeTimer=0,bust=0,dead=false,started=false,timeSec=0;
+let cam={x:0,y:0};
+const keys={};
+let mission=null,missionTimer=0,betweenMissions=2,passenger=null;
+
+function toast(txt,ms){const t=document.getElementById('toast');t.textContent=txt;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),ms||2200);}
+function hint(txt){const h=document.getElementById('hint');if(txt){h.textContent=txt;h.classList.add('show');}else h.classList.remove('show');}
+
+/* ---------- মিশন ---------- */
+const MNAMES={reach:'গন্তব্যে পৌঁছাও',pickup:'প্যাকেজ তোলো',drop:'প্যাকেজ পৌঁছে দাও',taxiPickup:'যাত্রীকে তোলো',taxiDrop:'যাত্রীকে পৌঁছে দাও',race:'চেকপয়েন্টে ছোটো'};
+function newMission(){
+  const kind=pick(['reach','delivery','taxi','reach','delivery']);
+  if(kind==='reach'){const t=roadPoint();mission={kind:'reach',stage:'go',tx:t.x,ty:t.y,reward:300+Math.floor(rr(0,400)),time:Math.max(35,Math.floor(Math.hypot(t.x-P.x,t.y-P.y)/38))};}
+  else if(kind==='delivery'){const a=roadPoint();mission={kind:'delivery',stage:'pickup',tx:a.x,ty:a.y,reward:500+Math.floor(rr(0,500)),time:60};}
+  else{const a=roadPoint();mission={kind:'taxi',stage:'taxiPickup',tx:a.x,ty:a.y,reward:450+Math.floor(rr(0,500)),time:70};}
+  missionTimer=mission.time;updateMissionText();
+}
+function updateMissionText(){
+  const el=document.getElementById('missionText');
+  if(!mission){el.innerHTML='একটু অপেক্ষা করো… নতুন মিশন আসছে';return;}
+  const d=Math.round(Math.hypot(mission.tx-P.x,mission.ty-P.y)/10);
+  let label=MNAMES[mission.stage]||'যাও';
+  if(mission.kind==='taxi'&&mission.stage==='taxiPickup'&&!P.inCar)label='আগে একটা গাড়ি নাও, তারপর যাত্রীকে তোলো';
+  el.innerHTML=label+' — <span class="dist">'+d+' মি</span> · ⏱ '+Math.max(0,Math.ceil(missionTimer))+' সে · পুরস্কার ৳'+mission.reward;
+}
+function completeStage(){
+  coin();
+  if(mission.kind==='reach'){award('মিশন সম্পূর্ণ! +৳'+mission.reward);mission=null;betweenMissions=3;}
+  else if(mission.kind==='delivery'&&mission.stage==='pickup'){
+    const t=roadPoint();mission.stage='drop';mission.tx=t.x;mission.ty=t.y;missionTimer=Math.max(40,Math.floor(Math.hypot(t.x-P.x,t.y-P.y)/36));
+    toast('📦 প্যাকেজ তুলেছো! এবার পৌঁছে দাও');
+  }
+  else if(mission.kind==='delivery'){award('ডেলিভারি সম্পূর্ণ! +৳'+mission.reward);mission=null;betweenMissions=3;}
+  else if(mission.kind==='taxi'&&mission.stage==='taxiPickup'){
+    if(!P.inCar){toast('🚕 যাত্রী গাড়িতে উঠবে — আগে গাড়ি নাও!');return;}
+    const t=roadPoint();mission.stage='taxiDrop';mission.tx=t.x;mission.ty=t.y;missionTimer=Math.max(40,Math.floor(Math.hypot(t.x-P.x,t.y-P.y)/36));
+    toast('🧍 যাত্রী উঠেছে! গন্তব্যে পৌঁছে দাও');passenger=true;
+  }
+  else if(mission.kind==='taxi'){award('যাত্রী পৌঁছেছে! +৳'+mission.reward);mission=null;betweenMissions=3;passenger=false;}
+  updateMissionText();
+}
+function award(txt){money+=mission.reward;totalEarned+=mission.reward;toast('✅ '+txt);const best=parseInt(localStorage.getItem('dvc_best')||'0');if(totalEarned>best)localStorage.setItem('dvc_best',''+totalEarned);}
+function failMission(why){toast('❌ মিশন ব্যর্থ — '+why);mission=null;betweenMissions=4;passenger=false;updateMissionText();}
+
+/* ---------- পুলিশ ---------- */
+function spawnCop(){
+  const a=rr(0,6.28),d=520;
+  const c={x:P.x+Math.cos(a)*d,y:P.y+Math.sin(a)*d,angle:0,speed:0,color:'#f5f6fa',cop:true,w:48,l:25,health:100};
+  c.x=Math.max(40,Math.min(2860,c.x));c.y=Math.max(40,Math.min(H-40,c.y));
+  cops.push(c);
+}
+function addWanted(n){
+  const before=wanted;wanted=Math.min(5,wanted+n);crimeTimer=26;
+  if(wanted>before)toast('⭐ পুলিশ তোমার পিছু নিয়েছে!');
+}
+
+/* ---------- ইনপুট ---------- */
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(e.key.toLowerCase()))e.preventDefault();
+  if((e.key.toLowerCase()==='e'))tryAction();});
+addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false;});
+function input(name){
+  if(name==='up')return keys['w']||keys['arrowup']||touch.up;
+  if(name==='down')return keys['s']||keys['arrowdown']||touch.down;
+  if(name==='left')return keys['a']||keys['arrowleft']||touch.left;
+  if(name==='right')return keys['d']||keys['arrowright']||touch.right;
+  if(name==='run')return keys['shift'];
+  return false;
+}
+const touch={up:0,down:0,left:0,right:0};
+if('ontouchstart'in window)document.body.classList.add('touch');
+document.querySelectorAll('.dpad button[data-k]').forEach(b=>{
+  const k=b.dataset.k;const on=e=>{e.preventDefault();touch[k]=1;};const off=e=>{e.preventDefault();touch[k]=0;};
+  b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointerleave',off);b.addEventListener('pointercancel',off);
+});
+document.getElementById('btnAction').addEventListener('pointerdown',e=>{e.preventDefault();tryAction();});
+document.getElementById('btnHorn').addEventListener('pointerdown',e=>{e.preventDefault();audio();horn();});
+
+function tryAction(){
+  audio();
+  if(P.inCar){ // নামা
+    const c=P.inCar;const sx=c.x+Math.cos(c.angle+Math.PI/2)*34,sy=c.y+Math.sin(c.angle+Math.PI/2)*34;
+    if(!hitBuilding(sx,sy,14)&&!inWater(sx)){P.x=sx;P.y=sy;P.inCar=null;c.driver=false;hint('');}
+  }else{
+    let best=null,bd=64;
+    for(const c of cars){const d=Math.hypot(c.x-P.x,c.y-P.y);if(d<bd){bd=d;best=c;}}
+    if(best){P.inCar=best;best.driver=true;best.traffic=false;toast('🚗 গাড়িতে উঠেছো — চালাও!');beep(520,0.08,'square',0.05);}
+  }
+}
+
+/* ---------- পদার্থবিজ্ঞান / আপডেট ---------- */
+function moveCircle(o,nx,ny,r){
+  if(inWater(nx)&&!o.isCar){nx=o.x;}
+  if(nx<r||nx>2880)nx=o.x; if(ny<r||ny>H-r)ny=o.y;
+  const b=hitBuilding(nx,ny,r);
+  if(b){
+    if(!hitBuilding(nx,o.y,r))o.y=ny; else if(!hitBuilding(o.x,ny,r))o.x=nx;
+    return true;
+  }
+  o.x=nx;o.y=ny;return false;
+}
+function updatePlayer(dt){
+  if(P.inCar){
+    const c=P.inCar;
+    if(input('up'))c.speed+=140*dt;
+    else if(input('down'))c.speed-= (c.speed>4?190:90)*dt;
+    else c.speed-=c.speed*0.7*dt;
+    c.speed=Math.max(-95,Math.min(335,c.speed));
+    if(Math.abs(c.speed)>3){
+      const st=(input('left')?-1:0)+(input('right')?1:0);
+      c.angle+=st*1.9*dt*(c.speed>0?1:-1)*Math.min(1,Math.abs(c.speed)/120);
+    }
+    const nx=c.x+Math.cos(c.angle)*c.speed*dt,ny=c.y+Math.sin(c.angle)*c.speed*dt;
+    const before=c.speed;
+    if(moveCircle(c,nx,ny,26)&&Math.abs(before)>130){c.speed=-before*0.32;P.health-=4;beep(120,0.15,'sawtooth',0.06);}
+    else if(hitBuilding(c.x,c.y,26))c.speed*=0.6;
+    P.x=c.x;P.y=c.y;P.angle=c.angle;
+    // অন্য গাড়িতে ধাক্কা
+    for(const o of cars){if(o===c)continue;const d=Math.hypot(o.x-c.x,o.y-c.y);
+      if(d<44){o.x+=(o.x-c.x)*0.14;o.y+=(o.y-c.y)*0.14;if(Math.abs(c.speed)>120){addWanted(0);crimeTimer=Math.max(crimeTimer,10);if(!o.bumped){o.bumped=true;setTimeout(()=>o.bumped=false,4000);if(Math.abs(c.speed)>170)addWanted(1);}c.speed*=0.55;P.health-=2;beep(140,0.1,'sawtooth',0.05);}}}
+    for(const o of cops){const d=Math.hypot(o.x-c.x,o.y-c.y);if(d<46){c.speed*=0.7;o.speed*=0.5;}}
+    // পথচারীতে ধাক্কা
+    for(const pd of peds){if(pd.down>0)continue;const d=Math.hypot(pd.x-c.x,pd.y-c.y);
+      if(d<30&&Math.abs(c.speed)>40){pd.down=9;pd.flee=0;addWanted(1);P.health-=1;beep(200,0.2,'sawtooth',0.07);toast('😱 পথচারীকে ধাক্কা দিলে!');}}
+    document.getElementById('speed').textContent='গতি: '+Math.round(Math.abs(c.speed)*0.36)+' কিমি/ঘণ্টা'+(passenger?' · 🧍 যাত্রী আছে':'');
+  }else{
+    const sp=(input('run')?215:138);
+    let mx=(input('left')?-1:0)+(input('right')?1:0),my=(input('up')?-1:0)+(input('down')?1:0);
+    if(mx||my){const m=Math.hypot(mx,my);mx/=m;my/=m;P.angle=Math.atan2(my,mx);
+      moveCircle(P,P.x+mx*sp*dt,P.y+my*sp*dt,13);}
+    document.getElementById('speed').textContent='';
+    let near=null;for(const c of cars){if(Math.hypot(c.x-P.x,c.y-P.y)<64){near=c;break;}}
+    hint(near?'🚗 গাড়িতে উঠতে E চাপো / 🚗 বোতাম':'');
+  }
+  P.health=Math.max(0,Math.min(100,P.health));
+}
+function updateTraffic(dt){
+  for(const c of cars){
+    if(c.driver)continue;
+    if(!c.traffic)continue;
+    // সামনের গাড়ি থাকলে থামো
+    let blocked=false;
+    for(const o of cars){if(o===c)continue;const fx=c.x+Math.cos(c.angle)*52,fy=c.y+Math.sin(c.angle)*52;if(Math.hypot(o.x-fx,o.y-fy)<30){blocked=true;break;}}
+    if(P.inCar){const fx=c.x+Math.cos(c.angle)*52,fy=c.y+Math.sin(c.angle)*52;if(Math.hypot(P.x-fx,P.y-fy)<30)blocked=true;}
+    const sp=blocked?0:c.speed*60;
+    let nx=c.x+Math.cos(c.angle)*sp*dt,ny=c.y+Math.sin(c.angle)*sp*dt;
+    // মোড়: রাস্তার কেন্দ্রের কাছাকাছি এলে মাঝে মাঝে ঘুরে যাও
+    if(c.axis==='h'){const vx=VROADS.reduce((a,b)=>Math.abs(b-nx)<Math.abs(a-nx)?b:a);
+      if(Math.abs(vx-nx)<8&&rnd()<0.012){c.axis='v';c.dir=rnd()<0.5?1:-1;c.lane=c.dir>0?36:-36;c.angle=c.dir>0?Math.PI/2:-Math.PI/2;nx=vx+c.lane;}
+      ny=c.y+((pick(HROADS)-0)||0)*0; // লেন ধরে রাখো
+      c.y+= ( (HROADS.reduce((a,b)=>Math.abs(b-c.y)<Math.abs(a-c.y)?b:a)+c.lane) - c.y)*0.06;
+    }else{const hy=HROADS.reduce((a,b)=>Math.abs(b-ny)<Math.abs(a-ny)?b:a);
+      if(Math.abs(hy-ny)<8&&rnd()<0.012){c.axis='h';c.dir=rnd()<0.5?1:-1;c.lane=c.dir>0?36:-36;c.angle=c.dir>0?0:Math.PI;ny=hy+c.lane;}
+      c.x+= ( (VROADS.reduce((a,b)=>Math.abs(b-c.x)<Math.abs(a-c.x)?b:a)+c.lane) - c.x)*0.06;
+    }
+    if(nx<40||nx>2860){c.angle+=Math.PI;c.dir*=-1;c.lane*=-1;nx=c.x;}
+    if(ny<40||ny>H-40){c.angle+=Math.PI;c.dir*=-1;c.lane*=-1;ny=c.y;}
+    if(!hitBuilding(nx,ny,24)){c.x=nx;c.y=ny;}
+    else{c.angle+=Math.PI;c.dir*=-1;}
+  }
+}
+function updatePeds(dt){
+  for(const pd of peds){
+    if(pd.down>0){pd.down-=dt;continue;}
+    const dP=Math.hypot(pd.x-P.x,pd.y-P.y);
+    if(P.inCar&&dP<110&&Math.abs(P.inCar.speed)>90)pd.flee=1.2;
+    if(pd.flee>0){pd.flee-=dt;const a=Math.atan2(pd.y-P.y,pd.x-P.x);moveCircle(pd,pd.x+Math.cos(a)*150*dt,pd.y+Math.sin(a)*150*dt,10);pd.angle=a;continue;}
+    pd.wt-=dt;if(pd.wt<0){pd.wt=rr(1.5,4);pd.angle=rr(0,6.28);}
+    const nx=pd.x+Math.cos(pd.angle)*pd.speed*60*dt*0.55,ny=pd.y+Math.sin(pd.angle)*pd.speed*60*dt*0.55;
+    if(hitBuilding(nx,ny,10)||inWater(nx)){pd.angle+=2.4;}else{pd.x=nx;pd.y=ny;}
+  }
+}
+const GARAGE={x:1500,y:2100};
+function updateCops(dt){
+  while(cops.length<wanted)spawnCop();
+  if(wanted===0&&cops.length){cops=cops.filter(c=>Math.hypot(c.x-P.x,c.y-P.y)<700);}
+  for(const c of cops){
+    const d=Math.hypot(P.x-c.x,P.y-c.y);
+    if(wanted===0){ // দূরে চলে যাও
+      if(d<760){const a=Math.atan2(c.y-P.y,c.x-P.x);c.x+=Math.cos(a)*120*dt;c.y+=Math.sin(a)*120*dt;c.angle=a;}
+      continue;
+    }
+    const ta=Math.atan2(P.y-c.y,P.x-c.x);
+    let da=ta-c.angle;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;
+    c.angle+=Math.max(-2.2*dt,Math.min(2.2*dt,da));
+    const targetSpd=d>70?265:120;
+    c.speed+=(targetSpd-c.speed)*Math.min(1,1.6*dt);
+    const nx=c.x+Math.cos(c.angle)*c.speed*dt,ny=c.y+Math.sin(c.angle)*c.speed*dt;
+    if(!moveCircle(c,nx,ny,25)){/*ok*/}else c.speed*=0.4;
+    if(d<54){
+      const pSpd=P.inCar?Math.abs(P.inCar.speed):0;
+      if(pSpd<45){bust+=dt*38;P.health-=dt*2;}else bust=Math.max(0,bust-dt*22);
+      if(bust>=100)return gameOver(true);
+    }
+  }
+  if(wanted>0){crimeTimer-=dt;if(crimeTimer<0){wanted--;crimeTimer=26;if(wanted===0)toast('😮‍💨 পুলিশের হাত থেকে বেঁচে গেছো!');}}
+  bust=Math.max(0,bust-dt*10);
+}
+function updateMission(dt){
+  if(!mission){betweenMissions-=dt;if(betweenMissions<=0)newMission();return;}
+  missionTimer-=dt;
+  if(missionTimer<=0)return failMission('সময় শেষ!');
+  const d=Math.hypot(mission.tx-P.x,mission.ty-P.y);
+  if(d<58&&(mission.stage!=='taxiPickup'||P.inCar||d<40)){
+    if(mission.stage==='taxiPickup'&&!P.inCar&&d>=40){/*গাড়ি লাগবে*/}
+    else completeStage();
+  }
+  if(Math.floor(timeSec*2)!==Math.floor((timeSec-dt)*2))updateMissionText();
+  // গ্যারেজ: ওয়ান্টেড মোছা
+  if(wanted>0&&P.inCar&&Math.hypot(GARAGE.x-P.x,GARAGE.y-P.y)<70){
+    if(money>=500){money-=500;wanted=0;cops=[];crimeTimer=0;toast('🔧 গাড়ি রং বদলে ফেলেছো — পুলিশ আর চিনবে না! (-৳৫০০)');coin();}
+    else if(!updateMission.g){updateMission.g=true;toast('🔧 গ্যারেজে ৳৫০০ লাগবে — টাকা কম আছে!');setTimeout(()=>updateMission.g=false,3000);}
+  }
+}
+function gameOver(busted){
+  dead=true;
+  const t=document.getElementById('endTitle'),x=document.getElementById('endText');
+  if(busted){t.textContent='🚔 ধরা পড়েছো!';const fine=Math.floor(money/2);money-=fine;x.textContent='পুলিশ তোমাকে ধরে ফেলেছে। জরিমানা ৳'+fine+' কেটে নেওয়া হয়েছে। মোট কামাই: ৳'+totalEarned;}
+  else{t.textContent='🏥 হাসপাতালে!';const bill=Math.min(money,800);money-=bill;x.textContent='তুমি আহত হয়ে হাসপাতালে। চিকিৎসা বিল ৳'+bill+'। মোট কামাই: ৳'+totalEarned;}
+  document.getElementById('endScreen').classList.remove('hidden');
+}
+function revive(){
+  dead=false;bust=0;wanted=0;cops=[];P.health=100;P.inCar=null;
+  P.x=300;P.y=470;for(const c of cars)c.driver=false;
+  document.getElementById('endScreen').classList.add('hidden');
+  toast('আবার মাঠে নেমেছো! 💪');
+}
+
+/* ---------- আঁকা ---------- */
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  cam.x=Math.max(0,Math.min(W-VW,P.x-VW/2));cam.y=Math.max(0,Math.min(H-VH,P.y-VH/2));
+  if(VW>=W)cam.x=(W-VW)/2; if(VH>=H)cam.y=(H-VH)/2;
+  // মাটি
+  ctx.fillStyle='#8fce6e';ctx.fillRect(0,0,VW,VH);
+  const x0=cam.x,y0=cam.y,x1=cam.x+VW,y1=cam.y+VH;
+  // ব্লক / ফুটপাত
+  ctx.fillStyle='#d8c9a3';
+  const xs=[-60,...VROADS,2860],ys=[-60,...HROADS,2540];
+  for(let i=0;i<xs.length-1;i++)for(let j=0;j<ys.length-1;j++){
+    const bx=xs[i]+ROADW/2,by=ys[j]+ROADW/2,bw=xs[i+1]-xs[i]-ROADW,bh=ys[j+1]-ys[j]-ROADW;
+    if(bx>x1||by>y1||bx+bw<x0||by+bh<y0)continue;
+    ctx.fillRect(bx-x0,by-y0,bw,bh);
+  }
+  // পার্ক
+  for(const p of parks){if(p.labelOnly)continue;if(p.x>x1||p.y>y1||p.x+p.w<x0||p.y+p.h<y0)continue;
+    ctx.fillStyle='#79c95f';ctx.fillRect(p.x-x0,p.y-y0,p.w,p.h);}
+  // বালু ও পানি (বিচ)
+  ctx.fillStyle='#f6e3ac';ctx.fillRect(SANDX-x0,0,WATERX-SANDX,VH);
+  const grad=ctx.createLinearGradient(WATERX-x0,0,W-x0,0);grad.addColorStop(0,'#38b6e3');grad.addColorStop(1,'#0f6fb8');
+  ctx.fillStyle=grad;ctx.fillRect(WATERX-x0,0,W-WATERX,VH);
+  ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=2;ctx.beginPath();
+  for(let y=0;y<H;y+=46){const wx=WATERX+16+Math.sin(timeSec*1.6+y*0.05)*8;if(y>y0-30&&y<y1+30){ctx.moveTo(wx-x0,y-y0);ctx.lineTo(wx+34-x0,y-y0);}}
+  ctx.stroke();
+  // রাস্তা
+  ctx.fillStyle='#3c414d';
+  for(const x of VROADS)ctx.fillRect(x-ROADW/2-x0,0,ROADW,VH);
+  for(const y of HROADS)ctx.fillRect(0,y-ROADW/2-y0,VW,ROADW);
+  ctx.strokeStyle='rgba(255,217,90,.85)';ctx.lineWidth=3;ctx.setLineDash([26,22]);
+  for(const x of VROADS){ctx.beginPath();ctx.moveTo(x-x0,0);ctx.lineTo(x-x0,VH);ctx.stroke();}
+  for(const y of HROADS){ctx.beginPath();ctx.moveTo(0,y-y0);ctx.lineTo(VW,y-y0);ctx.stroke();}
+  ctx.setLineDash([]);
+  // এলাকার নাম
+  ctx.font='700 21px "Hind Siliguri",sans-serif';ctx.textAlign='center';
+  for(const p of parks){const lx=p.labelOnly?p.cx:p.x+p.w/2,ly=p.labelOnly?p.cy:p.y+p.h/2;
+    if(lx<x0-80||lx>x1+80||ly<y0-30||ly>y1+30)continue;
+    ctx.fillStyle='rgba(90,50,20,.5)';ctx.fillText(p.name,lx-x0,ly-y0);}
+  // গ্যারেজ
+  ctx.fillStyle='#546e7a';ctx.fillRect(GARAGE.x-52-x0,GARAGE.y-40-y0,104,80);
+  ctx.fillStyle='#fff';ctx.font='26px sans-serif';ctx.fillText('🔧',GARAGE.x-x0,GARAGE.y+8-y0);
+  ctx.font='700 13px "Hind Siliguri",sans-serif';ctx.fillText('গ্যারেজ',GARAGE.x-x0,GARAGE.y+58-y0);
+  // পাম গাছ
+  for(const t of palms){if(t.x<x0-30||t.x>x1+30||t.y<y0-30||t.y>y1+30)continue;drawPalm(t.x-x0,t.y-y0);}
+  // বিল্ডিং
+  for(const b of buildings){if(b.x>x1||b.y>y1||b.x+b.w<x0||b.y+b.h<y0)continue;drawBuilding(b);}
+  // মিশন মার্কার
+  if(mission)drawMarker(mission.tx,mission.ty);
+  // পথচারী
+  for(const pd of peds){if(pd.x<x0-30||pd.x>x1+30||pd.y<y0-30||pd.y>y1+30)continue;drawPed(pd);}
+  // গাড়ি
+  for(const c of cars){if(c.x<x0-70||c.x>x1+70||c.y<y0-70||c.y>y1+70)continue;drawCar(c,false);}
+  for(const c of cops){if(c.x<x0-70||c.x>x1+70||c.y<y0-70||c.y>y1+70)continue;drawCar(c,true);}
+  // খেলোয়াড় (পায়ে হাঁটলে)
+  if(!P.inCar)drawPlayer();
+  // বাজেয়াপ্ত মিটার
+  if(bust>2){ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(VW/2-110,VH-92,220,20);
+    ctx.fillStyle='#ff4757';ctx.fillRect(VW/2-107,VH-89,214*(bust/100),14);
+    ctx.fillStyle='#fff';ctx.font='700 13px "Hind Siliguri",sans-serif';ctx.fillText('ধরা পড়ছো…!',VW/2,VH-100);}
+  drawEdgeArrow();
+  drawMinimap();
+}
+function drawPalm(x,y){
+  ctx.strokeStyle='#8a5a2b';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+4,y-12,x+8,y-22);ctx.stroke();
+  ctx.strokeStyle='#2e9e4f';ctx.lineWidth=3;ctx.beginPath();
+  for(let i=0;i<6;i++){const a=i/6*Math.PI*2+0.5;ctx.moveTo(x+8,y-22);ctx.quadraticCurveTo(x+8+Math.cos(a)*15,y-22+Math.sin(a)*8-5,x+8+Math.cos(a)*24,y-22+Math.sin(a)*13+3);}
+  ctx.stroke();
+}
+function drawBuilding(b){
+  const x=b.x-cam.x,y=b.y-cam.y;
+  ctx.fillStyle='rgba(0,0,0,.18)';ctx.fillRect(x+6,y+8,b.w,b.h);
+  ctx.fillStyle=b.c;ctx.fillRect(x,y,b.w,b.h);
+  ctx.fillStyle='rgba(255,255,255,.35)';ctx.fillRect(x+7,y+7,b.w-14,b.h-14);
+  ctx.fillStyle='rgba(70,40,90,.55)';
+  const cols=Math.max(2,Math.floor(b.w/26)),rows=Math.max(2,Math.floor(b.h/26));
+  for(let i=0;i<cols;i++)for(let j=0;j<rows;j++){if((i*7+j*13+b.floors)%3===0)ctx.fillRect(x+13+i*(b.w-24)/cols,y+13+j*(b.h-24)/rows,8,10);}
+  ctx.fillStyle='rgba(60,20,80,.75)';ctx.font='700 12px sans-serif';ctx.textAlign='center';
+  ctx.fillText(b.floors+' তলা',x+b.w/2,y+b.h/2+4);
+}
+function drawMarker(tx,ty){
+  const x=tx-cam.x,y=ty-cam.y,pulse=1+Math.sin(timeSec*5)*0.13;
+  ctx.save();ctx.translate(x,y);ctx.scale(pulse,pulse);
+  ctx.fillStyle='rgba(255,113,206,.3)';ctx.beginPath();ctx.arc(0,0,52,0,6.29);ctx.fill();
+  ctx.fillStyle='rgba(255,113,206,.55)';ctx.beginPath();ctx.arc(0,0,34,0,6.29);ctx.fill();
+  ctx.fillStyle='#ff2fb3';ctx.beginPath();ctx.arc(0,-6,15,0,6.29);ctx.fill();
+  ctx.beginPath();ctx.moveTo(-11,4);ctx.lineTo(11,4);ctx.lineTo(0,26);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='15px sans-serif';ctx.textAlign='center';ctx.fillText(mission&&mission.stage==='pickup'||mission&&mission.stage==='drop'?'📦':mission&&mission.kind==='taxi'?'🧍':'🏁',0,-1);
+  ctx.restore();
+}
+function drawPed(pd){
+  const x=pd.x-cam.x,y=pd.y-cam.y;
+  if(pd.down>0){ctx.save();ctx.translate(x,y);ctx.rotate(1.4);ctx.fillStyle=pd.c;ctx.fillRect(-11,-5,22,10);ctx.fillStyle='#ffd9b3';ctx.beginPath();ctx.arc(14,0,5.5,0,6.29);ctx.fill();ctx.restore();return;}
+  ctx.fillStyle='rgba(0,0,0,.2)';ctx.beginPath();ctx.ellipse(x,y+8,9,4,0,0,6.29);ctx.fill();
+  ctx.fillStyle=pd.c;ctx.beginPath();ctx.arc(x,y,9,0,6.29);ctx.fill();
+  ctx.fillStyle='#ffd9b3';ctx.beginPath();ctx.arc(x+Math.cos(pd.angle)*3,y+Math.sin(pd.angle)*3,5.5,0,6.29);ctx.fill();
+}
+function drawCar(c,cop){
+  const x=c.x-cam.x,y=c.y-cam.y;
+  ctx.save();ctx.translate(x,y);ctx.rotate(c.angle);
+  ctx.fillStyle='rgba(0,0,0,.25)';ctx.fillRect(-c.w/2+3,-c.l/2+5,c.w,c.l);
+  ctx.fillStyle='#222';const ww=9,wh=5;
+  ctx.fillRect(-c.w/2+5,-c.l/2-2,ww,wh);ctx.fillRect(c.w/2-14,-c.l/2-2,ww,wh);ctx.fillRect(-c.w/2+5,c.l/2-3,ww,wh);ctx.fillRect(c.w/2-14,c.l/2-3,ww,wh);
+  ctx.fillStyle=cop?'#f5f6fa':c.color;
+  roundRect(-c.w/2,-c.l/2,c.w,c.l,7);ctx.fill();
+  ctx.fillStyle=cop?'#2456c8':'rgba(20,30,60,.85)';
+  roundRect(-6,-c.l/2+3,17,c.l-6,4);ctx.fill();
+  ctx.fillStyle='rgba(180,235,255,.9)';ctx.fillRect(c.w/2-7,-c.l/2+4,4,6);ctx.fillRect(c.w/2-7,c.l/2-10,4,6);
+  ctx.fillStyle='#ff5252';ctx.fillRect(-c.w/2+2,-c.l/2+4,3,5);ctx.fillRect(-c.w/2+2,c.l/2-9,3,5);
+  if(cop){ctx.fillStyle=Math.floor(timeSec*4)%2?'#ff3838':'#3867ff';roundRect(-9,-c.l/2+8,15,5,2);ctx.fill();
+    ctx.fillStyle='#1a2a6c';ctx.font='700 9px sans-serif';ctx.textAlign='center';ctx.fillText('পুলিশ',0,3);}
+  if(c===P.inCar){ctx.fillStyle='#ffe259';ctx.beginPath();ctx.moveTo(0,-c.l/2-15);ctx.lineTo(-7,-c.l/2-25);ctx.lineTo(7,-c.l/2-25);ctx.fill();}
+  ctx.restore();
+}
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function drawPlayer(){
+  const x=P.x-cam.x,y=P.y-cam.y;
+  ctx.fillStyle='rgba(0,0,0,.25)';ctx.beginPath();ctx.ellipse(x,y+9,10,4.5,0,0,6.29);ctx.fill();
+  ctx.fillStyle='#ff71ce';ctx.beginPath();ctx.arc(x,y,11,0,6.29);ctx.fill();
+  ctx.fillStyle='#ffd9b3';ctx.beginPath();ctx.arc(x+Math.cos(P.angle)*4,y+Math.sin(P.angle)*4,6.5,0,6.29);ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,13.5,0,6.29);ctx.stroke();
+}
+function drawEdgeArrow(){
+  if(!mission)return;
+  const tx=mission.tx-cam.x,ty=mission.ty-cam.y;
+  if(tx>-40&&tx<VW+40&&ty>-40&&ty<VH+40)return;
+  const cx=VW/2,cy=VH/2,a=Math.atan2(ty-cy,tx-cx);
+  const ex=cx+Math.cos(a)*(Math.min(VW,VH)/2-46),ey=cy+Math.sin(a)*(Math.min(VW,VH)/2-46);
+  ctx.save();ctx.translate(ex,ey);ctx.rotate(a);
+  ctx.fillStyle='#ff2fb3';ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(-12,-11);ctx.lineTo(-12,11);ctx.fill();ctx.restore();
+  ctx.fillStyle='#fff';ctx.font='700 13px "Hind Siliguri",sans-serif';ctx.textAlign='center';
+  ctx.fillText(Math.round(Math.hypot(mission.tx-P.x,mission.ty-P.y)/10)+' মি',ex,ey+30);
+}
+function drawMinimap(){
+  const s=Math.min(mm.width/W,mm.height/H);
+  mmx.fillStyle='#274d27';mmx.fillRect(0,0,mm.width,mm.height);
+  mmx.fillStyle='#3c414d';
+  for(const x of VROADS)mmx.fillRect(x*s-3,0,6,H*s);
+  for(const y of HROADS)mmx.fillRect(0,y*s-3,W*s,6);
+  mmx.fillStyle='#1e90d6';mmx.fillRect(WATERX*s,0,(W-WATERX)*s,H*s);
+  mmx.fillStyle='#888';for(const b of buildings)mmx.fillRect(b.x*s,b.y*s,Math.max(2,b.w*s),Math.max(2,b.h*s));
+  mmx.fillStyle='#fff';mmx.fillRect(GARAGE.x*s-3,GARAGE.y*s-3,6,6);
+  if(mission){mmx.fillStyle='#ff2fb3';mmx.beginPath();mmx.arc(mission.tx*s,mission.ty*s,5+Math.sin(timeSec*5)*1.6,0,6.29);mmx.fill();}
+  mmx.fillStyle='#ff3838';for(const c of cops){mmx.beginPath();mmx.arc(c.x*s,c.y*s,3,0,6.29);mmx.fill();}
+  mmx.fillStyle='#ffe259';mmx.beginPath();mmx.arc(P.x*s,P.y*s,4.4,0,6.29);mmx.fill();
+  mmx.strokeStyle='#fff';mmx.lineWidth=1.6;mmx.strokeRect(cam.x*s,cam.y*s,VW*s,VH*s);
+}
+
+/* ---------- HUD ---------- */
+function updateHUD(){
+  document.getElementById('money').textContent='৳ '+money.toLocaleString('bn-BD');
+  let st='';for(let i=0;i<5;i++)st+='<span class="'+(i<wanted?'':'off')+'">★</span>';
+  document.getElementById('stars').innerHTML=st;
+  document.getElementById('healthFill').style.width=P.health+'%';
+  if(P.health<=0&&!dead)gameOver(false);
+}
+
+/* ---------- মূল লুপ ---------- */
+let last=0;
+function loop(ts){
+  requestAnimationFrame(loop);
+  const dt=Math.min(0.033,(ts-last)/1000||0.016);last=ts;
+  if(!started||dead)return;
+  timeSec+=dt;
+  updatePlayer(dt);updateTraffic(dt);updatePeds(dt);updateCops(dt);updateMission(dt);
+  sirenTone(timeSec);
+  draw();updateHUD();
+}
+spawnTraffic();spawnPeds();draw();
+requestAnimationFrame(loop);
+
+document.getElementById('btnStart').addEventListener('click',()=>{
+  audio();document.getElementById('startScreen').classList.add('hidden');
+  started=true;newMission();toast('🌴 ঢাকা ভাইস সিটিতে স্বাগতম!',2600);
+});
+document.getElementById('btnAgain').addEventListener('click',()=>{audio();revive();});
+</script>
+</body>
+</html>
