@@ -22,6 +22,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1033;font-family:
 #garageTxt{color:#ffe259!important;margin-top:2px}
 #tr{top:6px;right:8px;text-align:right}
 #stars{font-size:19px;color:#ffd83d;letter-spacing:2px;text-shadow:0 0 7px rgba(255,113,206,.9),0 2px 6px rgba(0,0,0,.8);min-height:24px}
+#stars span{text-shadow:0 0 9px rgba(255,47,179,.95),0 2px 4px rgba(0,0,0,.85)}
 #stars .off{color:rgba(255,255,255,.25)}
 #money{font-size:clamp(20px,4.6vh,28px);font-weight:800;font-style:italic;letter-spacing:1px;color:#7dff8a;text-shadow:0 2px 0 rgba(10,60,20,.9),0 3px 8px rgba(0,0,0,.7)}
 .bar{width:clamp(110px,22vh,170px);height:11px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.5);border-radius:7px;margin:3px 0 0 auto;overflow:hidden}
@@ -363,19 +364,23 @@ for(const b of buildings){
   const roof=new THREE.MeshLambertMaterial({color:new THREE.Color(b.c).multiplyScalar(0.78)});
   const m=new THREE.Mesh(new THREE.BoxGeometry(b.w,hgt,b.h),[mx,mx,roof,roof,mz,mz]);
   m.position.set(b.x+b.w/2,SIDE_Y+hgt/2,b.y+b.h/2);m.castShadow=true;scene.add(m);
-  // আর্ট-ডেকো সাদা কার্নিশ (ছাদের ধারে)
-  scene.add(box(b.w+7,5,b.h+7,lam('#fff6ea'),b.x+b.w/2,SIDE_Y+hgt+1.5,b.y+b.h/2,false));
+  // আর্ট-ডেকো কার্নিশ + নিয়ন: সাইনওয়ালা বিল্ডিংয়ের কার্নিশ নিয়ন রঙে জ্বলে
+  const hasNeon=Math.random()<0.45;
+  const neon=hasNeon?pickR(['#ff2fb3','#00e5ff','#ffe259','#7cff6b']):null;
+  const corMat=hasNeon?bas(neon):lam('#fff6ea');
+  scene.add(box(b.w+7,5,b.h+7,corMat,b.x+b.w/2,SIDE_Y+hgt+1.5,b.y+b.h/2,false));
   scene.add(box(b.w+4,7,b.h+4,lam('#fff6ea'),b.x+b.w/2,SIDE_Y+3.5,b.y+b.h/2,false));
-  // নিয়ন সাইন — কিছু বিল্ডিংয়ের গায়ে গোলাপি/সায়ান গ্লো বার
-  if(Math.random()<0.38){
-    const neon=pickR(['#ff2fb3','#00e5ff','#ffe259','#7cff6b']);
-    const sign=box(2,hgt*0.5,13,bas(neon),b.x+b.w+1.5,SIDE_Y+hgt*0.55,b.y+b.h/2,false);scene.add(sign);
-    const sign2=box(13,hgt*0.5,2,bas(neon),b.x+b.w/2,SIDE_Y+hgt*0.55,b.y+b.h+1.5,false);scene.add(sign2);
+  if(hasNeon){
+    const nm=bas(neon);
+    scene.add(box(3,hgt*0.62,16,nm,b.x+b.w+2,SIDE_Y+hgt*0.52,b.y+b.h/2,false));
+    scene.add(box(3,hgt*0.62,16,nm,b.x-2,SIDE_Y+hgt*0.52,b.y+b.h/2,false));
+    scene.add(box(16,hgt*0.62,3,nm,b.x+b.w/2,SIDE_Y+hgt*0.52,b.y+b.h+2,false));
+    scene.add(box(16,hgt*0.62,3,nm,b.x+b.w/2,SIDE_Y+hgt*0.52,b.y-2,false));
   }
   // ছাদে নিয়ন নাম-সাইন (হোটেল/ক্যাফে)
-  if(Math.random()<0.24){
+  if(Math.random()<0.32){
     const neonC=pickR(['#ff71ce','#01cdfe','#ffe259']);
-    const ns=textSprite(pickR(['হোটেল','HOTEL','ক্যাফে','হোটেল']),110,neonC);
+    const ns=textSprite(pickR(['হোটেল','HOTEL','ক্যাফে','হোটেল']),160,neonC);
     ns.position.set(b.x+b.w/2,SIDE_Y+hgt+22,b.y+b.h/2);scene.add(ns);
   }
   if(Math.random()<0.5)scene.add(box(b.w*0.3,6,b.h*0.3,lam('#7a7a88'),b.x+b.w*0.3,SIDE_Y+hgt+3,b.y+b.h*0.6,false));
